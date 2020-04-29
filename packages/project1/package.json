@@ -22,5 +22,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.3.5",
+    "@types/react-redux": "^7.1.7",
+    "firebase": "^7.14.2",
+    "redux-logger": "^3.0.6"
   }
 }
