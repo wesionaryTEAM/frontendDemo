@@ -19,8 +19,7 @@
     "noEmit": true,
     "jsx": "react"
   },
-  //this defines which files to include
   "include": [
-    "packages/*/src"
+    "src"
   ]
 }
