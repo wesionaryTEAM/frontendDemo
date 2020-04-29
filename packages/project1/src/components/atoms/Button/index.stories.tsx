@@ -1,7 +1,5 @@
 import React from "react";
-import "antd/dist/antd.css";
-import { storiesOf } from "@storybook/react";
-import { withKnobs, select, boolean } from "@storybook/addon-knobs";
+import { select, boolean } from "@storybook/addon-knobs";
 import { action } from "@storybook/addon-actions";
 import Button from "./index";
 import { SearchOutlined } from '@ant-design/icons'

@@ -3,7 +3,7 @@ import { Button } from 'antd';
 
 interface Props {
     loading?: boolean;
-    type?: "primary" | "default" | "dashed" | "link";
+    type: "primary" | "default" | "dashed" | "link";
     disabled?: boolean;
     shape?: "circle" | "circle-outline" | "round";
     transparent?: boolean;
@@ -25,7 +25,9 @@ const button = (props: Props) => {
             block={props.block}
             ghost={props.transparent}
             icon={props.icon}
-            disabled={props.disabled}>
+            disabled={props.disabled}
+            {...props}
+        >
 
             {props.children}
         </Button>
