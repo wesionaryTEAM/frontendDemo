@@ -1,7 +1,7 @@
 import blogSlice from "./blog/blog.slice";
 
 const rootReducer = {
-  blog: blogSlice.reducer,
+  blogs: blogSlice.reducer,
 };
 
 export default rootReducer;

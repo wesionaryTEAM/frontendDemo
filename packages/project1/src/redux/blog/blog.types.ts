@@ -1,6 +1,12 @@
-export interface Blog {
-  id: string;
+export interface BlogType {
+  id?: string;
   title: string;
   description: string;
-  error: string | null;
+}
+
+export interface BlogCollectionType {
+  blogCollection: BlogType[];
+  loading: boolean;
+  error: string;
+  message: string;
 }

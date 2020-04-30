@@ -18,20 +18,4 @@ firebase.initializeApp(config);
 
 export const firestore = firebase.firestore();
 
-export const convertCollectionSnapshotToMap = (collections: any) => {
-  const transformedCollection = collections.docs.map((doc: any) => {
-    const { title, description } = doc.data();
-    return {
-      id: doc.id,
-      title,
-      description,
-    };
-  });
-
-  return transformedCollection.reduce((accumulator: any, collection: any) => {
-    accumulator[collection.title.toLowerCase()] = collection;
-    return accumulator;
-  }, {});
-};
-
 export default firebase;

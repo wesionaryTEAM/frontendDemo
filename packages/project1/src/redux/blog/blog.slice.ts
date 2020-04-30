@@ -1,38 +1,79 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import firebase from "../../firebase/utils";
-import { Blog } from "./blog.types";
+import { firestore } from "../../firebase/utils";
+import { BlogType, BlogCollectionType } from "./blog.types";
 
-const BlogInitialState: Blog[] = [
-  {
-    id: "AX34234",
-    title: "This is the tile of blog",
-    description: "This the description of the blog",
-    error: null,
-  },
-];
+const BlogInitialState = {
+  blogCollection: [] as BlogType[],
+  loading: false,
+  error: "",
+  message: "",
+} as BlogCollectionType;
 
-const blogSlice = createSlice({
-  name: "blog",
-  initialState: BlogInitialState,
-  reducers: {
-    firstRender: (state, { payload }: PayloadAction<Blog>) => {},
-    createNewBlog: (state, { payload }: PayloadAction<Blog>) => {
-      payload.error = null;
-      state.push(payload);
-    },
-    getBlogDetailsSuccess(state, { payload }: PayloadAction<Blog>) {
-      state.push(payload);
-    },
-    // getBlogDetailsFailed(state, { payload }: PayloadAction<string>) {
-    //   state.id = null;
-    //   state.error = payload.error;
-    // },
-  },
+export const fetchBlogData = createAsyncThunk("blog/fetchingBlog", async () => {
+  const blogRef = await firestore.collection("blog");
+  const blogSnapShot = await blogRef.get();
+  return blogSnapShot.docs.map((doc: any) => {
+    const { title, description } = doc.data();
+    return {
+      id: doc.id,
+      title,
+      description,
+    } as BlogType;
+  });
 });
 
-// export const fetchBlog = createAsyncThunk("blog", async (userId, thunkAPI) => {
-//   const reponse;
-// });
+export const addBlogData = createAsyncThunk(
+  "blog/addingBlog",
+  async (title, description) => {
+    await firestore.collection("blog").add({
+      title,
+      description,
+    });
+  }
+);
+
+const blogSlice = createSlice({
+  name: "blogs",
+  initialState: BlogInitialState,
+  reducers: {},
+  extraReducers: {
+    [fetchBlogData.pending.toString()]: (state) => {
+      state.loading = true;
+    },
+    [fetchBlogData.fulfilled.toString()]: (
+      state,
+      { payload }: PayloadAction<BlogType[]>
+    ) => {
+      state.blogCollection = payload;
+      state.loading = false;
+      state.error = "";
+    },
+    [fetchBlogData.rejected.toString()]: (
+      state,
+      { payload }: PayloadAction<string>
+    ) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    [addBlogData.pending.toString()]: (state) => {
+      state.loading = true;
+    },
+    [addBlogData.fulfilled.toString()]: (
+      state,
+      { payload }: PayloadAction<BlogType[]>
+    ) => {
+      state.loading = false;
+      state.message = "Blog added sucessfully";
+    },
+    [addBlogData.rejected.toString()]: (
+      state,
+      { payload }: PayloadAction<string>
+    ) => {
+      state.loading = false;
+      state.error = payload;
+    },
+  },
+});
 
 export default blogSlice;
