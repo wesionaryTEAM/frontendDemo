@@ -3,7 +3,7 @@ import { Button } from 'antd';
 
 interface Props {
     loading?: boolean;
-    type: "primary" | "default" | "dashed" | "link";
+    type?: "primary" | "default" | "dashed" | "link";
     disabled?: boolean;
     shape?: "circle" | "circle-outline" | "round";
     transparent?: boolean;
@@ -12,11 +12,14 @@ interface Props {
     block?: boolean;
     onClick?: (event?: any) => void;
     icon?: any;
+    submit ?: "submit" | "button";
+    
 }
 
 const button = (props: Props) => {
     return (
         <Button
+            htmlType={props.submit}
             shape={props.shape}
             type={props.type}
             onClick={props.onClick}

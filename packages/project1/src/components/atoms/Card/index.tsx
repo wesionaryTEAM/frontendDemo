@@ -2,7 +2,7 @@ import React from 'react';
 import { Card } from 'antd';
 
 interface Props {
-    title: string;
+    title ?: string;
     size?: "default" | "small";
     children : any;
     className ?: any;

@@ -8,6 +8,7 @@ interface Props {
     onChange ?: (event?: any) => void;
     placeholder?: string;
     icon?: any;
+    value ?: string;
     disabled ?: boolean;
 }
 
@@ -15,14 +16,14 @@ const InputComponent = (props: Props) => {
     var component;
     switch (props.type) {
         case "password":
-            component = <Input.Password disabled = {props.disabled} size={props.size} prefix={props.icon} onChange={props.onChange} placeholder={props.placeholder} allowClear = {props.clearIcon} />
+            component = <Input.Password value = {props.value} disabled = {props.disabled} size={props.size} prefix={props.icon} onChange={props.onChange} placeholder={props.placeholder} allowClear = {props.clearIcon} />
             break;
         case "textarea":
             const { TextArea } = Input;
-            component = <TextArea prefix={props.icon} autoSize= {{ minRows: 3, maxRows: 6 }} disabled = {props.disabled} onChange={props.onChange} placeholder={props.placeholder} allowClear = {props.clearIcon} />
+            component = <TextArea value = {props.value} prefix={props.icon} autoSize= {{ minRows: 3, maxRows: 6 }} disabled = {props.disabled} onChange={props.onChange} placeholder={props.placeholder} allowClear = {props.clearIcon} />
             break;
         default:
-            component = <Input size={props.size} disabled = {props.disabled} prefix={props.icon} onChange={props.onChange} placeholder={props.placeholder} allowClear = {props.clearIcon} />
+            component = <Input value = {props.value} size={props.size} disabled = {props.disabled} prefix={props.icon} onChange={props.onChange} placeholder={props.placeholder} allowClear = {props.clearIcon} />
     }
     return (
         component
