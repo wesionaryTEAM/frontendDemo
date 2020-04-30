@@ -1,39 +1,32 @@
 import React from 'react';
-import { Input, Form } from 'antd';
+import { Input } from 'antd';
 
 interface Props {
-    label?: string;
-    required?: boolean;
-    validation?: string;
-    password?: boolean;
-    name?: string;
-
+    size?: "large" | "small" | "middle";
+    clearIcon ?: boolean;
+    type?: "password" | "textarea";
+    onChange ?: (event?: any) => void;
     placeholder?: string;
     icon?: any;
+    disabled ?: boolean;
 }
 
-const input = (props: Props) => {
-
-    const message = props.validation ? props.validation : "This field is required!";
-
-    const rule = props.required ? [{
-        required: true,
-        message: message
-    }] : [];
-    console.log(rule)
+const InputComponent = (props: Props) => {
+    var component;
+    switch (props.type) {
+        case "password":
+            component = <Input.Password disabled = {props.disabled} size={props.size} prefix={props.icon} onChange={props.onChange} placeholder={props.placeholder} allowClear = {props.clearIcon} />
+            break;
+        case "textarea":
+            const { TextArea } = Input;
+            component = <TextArea prefix={props.icon} autoSize= {{ minRows: 3, maxRows: 6 }} disabled = {props.disabled} onChange={props.onChange} placeholder={props.placeholder} allowClear = {props.clearIcon} />
+            break;
+        default:
+            component = <Input size={props.size} disabled = {props.disabled} prefix={props.icon} onChange={props.onChange} placeholder={props.placeholder} allowClear = {props.clearIcon} />
+    }
     return (
-        <Form.Item
-            label={props.label}
-            rules={rule}>
-
-            {props.password ?
-                <Input.Password prefix={props.icon} placeholder={props.placeholder} allowClear/> :
-                <Input prefix={props.icon} placeholder={props.placeholder} allowClear />
-            }
-
-
-        </Form.Item>
+        component
     )
 }
 
-export default input;
+export default InputComponent;

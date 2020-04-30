@@ -2,56 +2,71 @@ import React from "react";
 import { select, boolean, text } from "@storybook/addon-knobs";
 import { UserOutlined } from '@ant-design/icons'
 import Input from "./index";
-import { Form } from "antd";
 
 export default {
   component: Input,
   title: 'Components/Atoms/Input',
 };
 
-export const InputWithoutLabel = () => {
+export const TextInput = () => {
   return (
     <Input
       placeholder={text("Placeholder", "Enter your name")}
-
+      size={select(
+        "Size",
+        { large: "large", middle: "middle", small: "small" },
+        "middle"
+      )}
+      disabled={boolean("Disabled", false)}
+      clearIcon={boolean("Clear Icon", true)}
     />
   )
 }
-export const InputWithLabel = () => {
-  return (
-    <Form>
-      <Input
-        label={text("Label", "Username")}
-        required={boolean("Required", false)}
 
-      />
-    </Form>
+export const PasswordInput = () => {
+  return (
+    <Input
+      type="password"
+      placeholder={text("Placeholder", "Enter your password")}
+      size={select(
+        "Size",
+        { large: "large", middle: "middle", small: "small" },
+        "middle"
+      )}
+      disabled={boolean("Disabled", false)}
+      clearIcon={boolean("Clear Icon", true)}
+    />
   )
 }
 
-export const PasswordField = () => {
+export const TextArea = () => {
   return (
-    <Form>
-      <Input
-        password
-        label={text("Label", "Password")}
-        validation="Please enter password!"
-        required={boolean("Required", true)}
-        placeholder={text("Placeholder", "Enter your password")}
-
-      />
-    </Form>
+    <Input
+      type="textarea"
+      placeholder={text("Placeholder", "Write Message")}
+      size={select(
+        "Size",
+        { large: "large", middle: "middle", small: "small" },
+        "middle"
+      )}
+      disabled={boolean("Disabled", false)}
+      clearIcon={boolean("Clear Icon", true)}
+    />
   )
 }
+
 export const InputWithIcon = () => {
   return (
-    <Form>
-      <Input
-        icon={<UserOutlined />}
-        required={boolean("Required", true)}
-        placeholder={text("Placeholder", "Username")}
-
-      />
-    </Form>
+    <Input
+      icon={<UserOutlined />}
+      placeholder={text("Placeholder", "Username")}
+      size={select(
+        "Size",
+        { large: "large", middle: "middle", small: "small" },
+        "middle"
+      )}
+      disabled={boolean("Disabled", false)}
+      clearIcon={boolean("Clear Icon", true)}
+    />
   )
 }
