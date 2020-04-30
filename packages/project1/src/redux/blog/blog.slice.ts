@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { firestore } from "../../firebase/utils";
-import { BlogType, BlogCollectionType } from "./blog.types";
+import { BlogCollectionType,BlogType } from "./blog.types";
 
 const BlogInitialState = {
   blogCollection: [] as BlogType[],
@@ -25,10 +25,10 @@ export const fetchBlogData = createAsyncThunk("blog/fetchingBlog", async () => {
 
 export const addBlogData = createAsyncThunk(
   "blog/addingBlog",
-  async (title, description) => {
+  async (formValues: any) => {
     await firestore.collection("blog").add({
-      title,
-      description,
+      title: formValues.title,
+      description: formValues.description,
     });
   }
 );

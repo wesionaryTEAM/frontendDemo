@@ -1,27 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { connect, useSelector, useDispatch } from "react-redux";
+import { connect, useSelector } from "react-redux";
 
-import { fetchBlogData, addBlogData } from "../../redux/blog/blog.slice";
-import { BlogCollectionType, BlogType } from "../../redux/blog/blog.types";
-
+import { addBlogData,fetchBlogData } from "../../redux/blog/blog.slice";
+import { BlogType } from "../../redux/blog/blog.types";
 import Button from "../atoms/Button";
 import Card from "../atoms/Card";
 import Input from "../atoms/Input";
+import Spinner from "../atoms/Spinner";
 
 const Blog = ({ fetchBlogData, addBlogData }: any) => {
   useEffect(() => {
     fetchBlogData();
   }, []);
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [formValue, setFormValue] = useState({ title: "", description: "" });
 
   const { blogCollection, loading, error, message } = useSelector(
     (state: any) => state.blogs
   );
 
-  const inputChangeHandler = (event: React.FormEvent<HTMLInputElement>) => {
-    [event.target.name] : [event.target.value]
+  const inputChangeHandler = (event: any) => {
+    setFormValue({ ...formValue, [event.target.name]: event.target.value });
+  };
+
+  const clearFormData = () => {
+    setFormValue({ title: "", description: "" });
   };
 
   return (
@@ -30,24 +33,30 @@ const Blog = ({ fetchBlogData, addBlogData }: any) => {
         <Input
           placeholder={"Enter the title of Blog"}
           size={"large"}
-          value={title}
+          value={formValue.title}
           name="title"
           onChange={inputChangeHandler}
         />
         <Input
           placeholder={"Enter the description of Blog"}
           size={"large"}
-          value={description}
+          value={formValue.description}
           name="description"
           onChange={inputChangeHandler}
         />
-        <Button type="primary" onClick={addBlogData}>
+        <Button
+          type="primary"
+          onClick={() => {
+            addBlogData(formValue);
+            clearFormData();
+          }}
+        >
           Add blog
         </Button>
         {message ? <h3>{message}</h3> : null}
       </Card>
       <Card title="Blog details">
-        {loading ? <h1>Loading...</h1> : null}
+        {loading ? <Spinner /> : null}
         {error ? <h1>Error: {error.message}</h1> : null}
         {blogCollection.map((singleBlog: BlogType) => {
           return (
